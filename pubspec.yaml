@@ -1,0 +1,8 @@
+name: dartup
+author: Ole Martin Gjersvik <olem@olem.org>
+description: Dart hosting platform on AWS
+homepage: dartup.net
+environment:
+  sdk: '>=1.8.3 <2.0.0'
+dependencies:
+  browser: any
