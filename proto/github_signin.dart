@@ -5,9 +5,10 @@ import "dart:html";
 import "package:dartup/secret.dart" as secret;
 
 main(){
-  print(window.location.search);
+  var button = querySelector("#signin");
   
-  querySelector("#signin").onClick.listen((_){
+  // 1. redirect browser to get code.
+  button.onClick.listen((_){
     
     var req = {
                "client_id": secret.githubClinetId,
@@ -19,4 +20,17 @@ main(){
     
     window.location.assign(uri.toString());
   });
+  
+  // 2. Use code to get acesskey
+  if(Uri.base.queryParameters.containsKey('code')){
+    button.hidden = true;
+    var data = {
+               "client_id": secret.githubClinetId,
+               "client_secret": secret.githubClinetSecret,
+               "code": Uri.base.queryParameters['code']
+    };
+    var formencode = new Uri(queryParameters: data).query;
+    HttpRequest.requestCrossOrigin("https://github.com/login/oauth/access_token", method: "POST", sendData: formencode)
+    .then(print);
+  }
 }
