@@ -6,9 +6,6 @@ set -e
 # Run the tests.
 dart --checked test/test_all.dart
 
-# Run the build.dart file - just to make sure it works
-# dart --checked build.dart
-
 # Install dart_coveralls; gather and send coverage data.
 if [ "$COVERALLS_TOKEN" ]; then
   pub global activate dart_coveralls

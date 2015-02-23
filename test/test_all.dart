@@ -1,3 +1,7 @@
+import "package:unittest/unittest.dart";
+
+import "test_server.dart" as server;
+
 main(){
-  //todo needs more tests :P
+  group("Server", server.main);
 }
