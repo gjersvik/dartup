@@ -3,3 +3,5 @@ sudo: false
 dart:
   - stable
 script: ./tool/travis.sh
+notifications:
+  irc: "chat.freenode.net#dartup"
