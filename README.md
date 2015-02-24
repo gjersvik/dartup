@@ -4,3 +4,5 @@
 [![Stories in Ready](https://badge.waffle.io/gjersvik/dartup.png?label=ready&title=Ready)](https://waffle.io/gjersvik/dartup)
 
 Dart hosting platform on AWS
+
+IRC: [#dartup](http://webchat.freenode.net/?channels=dartup)
