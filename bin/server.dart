@@ -1,6 +1,13 @@
+library dartup_controll;
 
-int get42() => 42;
+import "package:redstone/server.dart" as app;
 
-main(){
-  print(get42);
+part "src/ping.dart";
+
+@app.Route("/")
+helloWorld() => "Hello, World!";
+
+main(List<String> args){
+  app.setupConsoleLog();
+  app.start();
 }
