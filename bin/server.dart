@@ -1,6 +1,7 @@
 library dartup_controll;
 
 import "dart:async";
+import "dart:io";
 
 import "package:redstone/server.dart" as app;
 import "package:di/di.dart";
@@ -19,7 +20,7 @@ Future<bool> auth(String token){
 
 main(List<String> args){
   app.addModule(new Module()
-    ..bind(AuthFunction, toInstanceOf: auth));
+    ..bind(AuthFunction, toValue: auth));
   
   app.setupConsoleLog();
   app.start();
