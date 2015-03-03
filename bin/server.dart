@@ -1,6 +1,7 @@
 library dartup_controll;
 
 import "dart:async";
+import "dart:convert";
 import "dart:io";
 
 import "package:redstone/server.dart" as app;
@@ -25,4 +26,11 @@ main(List<String> args){
   
   app.setupConsoleLog();
   app.start();
+  
+  var dynamo = new Dynamodb();
+  
+  
+  dynamo.set("dartup_prototype", {"id": "fromServer", "123": [1,2,3]})
+  .then((_)=> dynamo.get("dartup_prototype", {"id": "fromServer"}))
+  .then(print);
 }
