@@ -8,6 +8,7 @@ import "package:di/di.dart";
 
 part "src/interceptor/auth.dart";
 part "src/routers/ping.dart";
+part "src/dynamodb.dart";
 
 @app.Route("/")
 helloWorld() => "Hello, World!";
