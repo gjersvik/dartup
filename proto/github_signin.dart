@@ -1,8 +1,8 @@
 library dartup_prototype_github_signin;
 
 import "dart:html";
-
-import "package:dartup/secret.dart" as secret;
+import "package:dartup/github_client_id.dart";
+import "package:dartup/secret.dart";
 
 main(){
   var button = querySelector("#signin");
@@ -11,7 +11,7 @@ main(){
   button.onClick.listen((_){
     
     var req = {
-               "client_id": secret.githubClinetId,
+               "client_id": githubClientId,
                "redirect_uri": "http://localhost:8080/github_signin.html",
                "scope": "user:email"
                
@@ -25,8 +25,8 @@ main(){
   if(Uri.base.queryParameters.containsKey('code')){
     button.hidden = true;
     var data = {
-               "client_id": secret.githubClinetId,
-               "client_secret": secret.githubClinetSecret,
+               "client_id": githubClientId,
+               "client_secret": githubClinetSecret,
                "code": Uri.base.queryParameters['code']
     };
     var formencode = new Uri(queryParameters: data).query;

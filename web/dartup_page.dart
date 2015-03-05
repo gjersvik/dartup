@@ -1,4 +1,16 @@
+library dartup_webpage;
+
+import "dart:async";
 import "dart:html";
+
+import "package:dartup/github_client_id.dart";
+
+main(){
+  readmore();
+  
+  var server = new Server();
+  server.ping().then(print);
+}
 
 readmore(){
   querySelectorAll('.readmore').onClick.listen((MouseEvent e){
@@ -11,7 +23,10 @@ readmore(){
   });
 }
 
-main(){
+class Server{
+  final String serveUrl = "http://localhost:8081";
   
-  readmore();
+  Future<String> ping() {
+    return HttpRequest.getString(serveUrl + "/ping");
+  }
 }

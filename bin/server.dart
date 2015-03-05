@@ -25,12 +25,5 @@ main(List<String> args){
     ..bind(AuthFunction, toValue: auth));
   
   app.setupConsoleLog();
-  app.start();
-  
-  var dynamo = new Dynamodb();
-  
-  
-  dynamo.set("dartup_prototype", {"id": "fromServer", "123": [1,2,3]})
-  .then((_)=> dynamo.get("dartup_prototype", {"id": "fromServer"}))
-  .then(print);
+  app.start(port:8081);
 }
