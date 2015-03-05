@@ -4,10 +4,12 @@ import "dart:async";
 import "dart:convert";
 import "dart:io";
 
-import "package:redstone/server.dart" as app;
 import "package:di/di.dart";
+import "package:redstone/server.dart" as app;
+import "package:shelf/shelf.dart" as shelf;
 
 part "src/interceptor/auth.dart";
+part "src/interceptor/cors.dart";
 part "src/routers/ping.dart";
 part "src/dynamodb.dart";
 
