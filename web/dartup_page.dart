@@ -9,7 +9,8 @@ main(){
   readmore();
   
   var server = new Server();
-  server.ping().then(print);
+  var auth = new Auth(window,server,Uri.base);
+  querySelector("#signin_button").onClick.listen((_)=> auth.login());
 }
 
 readmore(){
@@ -28,21 +29,47 @@ class Auth{
   Stream<bool> _boolStream;
   String _token;
   
-  Auth(){
+  final Window _window;
+  final Server _server;
+  final Uri _base;
+  
+  Auth(this._window, this._server, this._base){
     _boolStream = onToken
         .map((s) => s.isNotEmpty)
         // this line is not a bug i am passing the function created by
         // dedupMaker not dedupMaker itself.
         .where(dedupMaker());
     
-    // 1. Check if we have github_token in local storage
-    if(window.localStorage.containsKey("github_token")){
-      token = window.localStorage["github_token"];
-      return;
-    }else{
-      token = "";
-    }
+    // 1. get token from localStorage if its there.
+    _window.localStorage.putIfAbsent("github_token", () => "");
+    token = _window.localStorage["github_token"];
     
+    if(!logedIn){
+      //3. See if there is one-time code from github in the url.
+      if(_base.queryParameters.containsKey('code')){
+        // 4. extange the one-time code with a github acess code.
+        // Using the secrets stored on the server.
+        _server.getToken(_base.queryParameters['code'])
+          .then((t) => token = t);
+      }
+    }
+  }
+  
+  void login(){
+    // 2. ask github to autetnicate this user.
+    _server.getCinetId().then((clinetId){
+      var query = {
+        "client_id": clinetId,
+        "redirect_uri": _base.toString(),
+        "scope": "user:email"
+      };
+      var uri = new Uri.https("github.com", "/login/oauth/authorize",query);
+      window.location.assign(uri.toString());
+    });
+  }
+  
+  void logout(){
+    token = "";
   }
   
   String get token => _token;
@@ -51,6 +78,7 @@ class Auth{
       return;
     }
     _token = t;
+    _window.localStorage["github_token"] = t;
     _tokenController.add(t);
   }
   Stream<String> get onToken => _tokenController.stream;
@@ -77,5 +105,13 @@ class Server{
   
   Future<String> ping() {
     return HttpRequest.getString(serveUrl + "/ping");
+  }
+  
+  Future<String> getToken(String code){
+    return new Future.error("Server:getToken is not implemented");
+  }
+  
+  Future<String> getCinetId(){
+    return new Future.value(githubClientId);
   }
 }
