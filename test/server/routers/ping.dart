@@ -18,7 +18,7 @@ ping() => group('ping',(){
     //dispatch the request
     return app.dispatch(req).then((resp) {
       //verify the response
-      expect(resp.statusCode, equals(HttpStatus.FORBIDDEN));
+      expect(resp.statusCode, equals(HttpStatus.FORBIDDEN),reason:resp.mockContent);
     });
   });
 });

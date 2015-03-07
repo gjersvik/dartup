@@ -108,10 +108,10 @@ class Server{
   }
   
   Future<String> getToken(String code){
-    return new Future.error("Server:getToken is not implemented");
+    return HttpRequest.getString(serveUrl + "/getToken?code=$code");
   }
   
   Future<String> getCinetId(){
-    return new Future.value(githubClientId);
+    return HttpRequest.getString(serveUrl + "/getClientId");
   }
 }
