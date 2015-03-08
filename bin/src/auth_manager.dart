@@ -7,6 +7,9 @@ class AuthManager{
   final Set<String> anonymousAccess
     = new Set.from(["/ping","/getToken","/getClientId"]);
   
+  final String clientId = Platform.environment['GITHUB_ID'];
+  final String clientSecret = Platform.environment['GITHUB_SECRET'];
+  
   AuthManager();
   
   Future<bool> auth(String token){
@@ -31,14 +34,12 @@ class AuthManager{
     });
   }
   
-  String getClientId(){
-    return githubClientId;
-  }
+  String getClientId() => clientId;
   
   Future<String> getToken(){
     var data = {
-      "client_id": githubClientId,
-      "client_secret": githubClinetSecret,
+      "client_id": clientId,
+      "client_secret": clientSecret,
       "code": app.request.queryParams["code"]
     };
     

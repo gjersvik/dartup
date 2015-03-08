@@ -3,8 +3,6 @@ library dartup_webpage;
 import "dart:async";
 import "dart:html";
 
-import "package:dartup/github_client_id.dart";
-
 main(){
   readmore();
   
