@@ -13,6 +13,5 @@ if [ "$COVERALLS_TOKEN" ]; then
     --debug \
     --token $COVERALLS_TOKEN \
     --retry 2 \
-    --exclude-test-files \
     test/test_all.dart
 fi
