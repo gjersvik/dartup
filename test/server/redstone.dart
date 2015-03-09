@@ -8,7 +8,7 @@ redstone(void body()){
   group("Redstone",(){
     setUp((){
       app.addModule(new Module()
-          ..bind(AuthManager));
+          ..bind(Auth));
       app.setUp([#dartup_controll]);
     });
     tearDown(() => app.tearDown());

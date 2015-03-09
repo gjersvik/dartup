@@ -1,7 +1,11 @@
 library dartup_webpage;
 
 import "dart:async";
+import "dart:convert";
 import "dart:html";
+
+import "package:http/browser_client.dart";
+import "package:http/http.dart" as http;
 
 main(){
   readmore();
@@ -98,18 +102,24 @@ Predicate dedupMaker(){
   };
 }
 
+
 class Server{
   final String serveUrl = "http://localhost:8081";
+  final client = new BrowserClient();
   
   Future<String> ping() {
-    return HttpRequest.getString(serveUrl + "/ping");
+    return client.get(serveUrl + "/ping").then((res) => res.body);
   }
   
   Future<String> getToken(String code){
-    return HttpRequest.getString(serveUrl + "/getToken?code=$code");
+    var req = new http.Request("POST",Uri.parse(serveUrl + "/getToken"));
+    req.body = JSON.encode({"code":code});
+    req.headers["Content-Type"] = "application/json";
+    return client.send(req)
+        .then((res) => UTF8.decodeStream(res.stream));
   }
   
   Future<String> getCinetId(){
-    return HttpRequest.getString(serveUrl + "/getClientId");
+    return client.get(serveUrl + "/getClientId").then((res) => res.body);
   }
 }

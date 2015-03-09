@@ -12,7 +12,26 @@ corsInterceptor() {
   }
 }
 
-_createCorsHeader() => {"Access-Control-Allow-Origin": "http://localhost:8080"};
+_createCorsHeader() => {
+  "Access-Control-Allow-Origin": "http://localhost:8080",
+  "Access-Control-Allow-Headers": "origin, content-type, accept"
+};
 
 @app.Interceptor(r"/.*")
-authInterceptor(Auth auth) => auth.interceptor();
+authInterceptor(Auth auth){
+  // test for path that can be accessed anonimusly 
+  if(noAuth.contains(app.request.url.path)){
+    app.chain.next();
+    return;
+  }
+   
+  auth.auth(app.request.headers["Authentication"]).then((accepted){
+    if(accepted){
+      app.chain.next();
+    }else{
+      app.chain.interrupt(statusCode: HttpStatus.FORBIDDEN);
+    }
+  }).catchError((e){
+    app.chain.interrupt(statusCode: HttpStatus.INTERNAL_SERVER_ERROR, responseValue: e);
+  });
+}
