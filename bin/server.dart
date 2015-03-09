@@ -9,14 +9,14 @@ import "package:http/http.dart" as http;
 import "package:redstone/server.dart" as app;
 import "package:shelf/shelf.dart" as shelf;
 
-part "src/interceptor/cors.dart";
-part "src/routers/ping.dart";
-part "src/auth_manager.dart";
+part "src/interceptor.dart";
+part "src/routers.dart";
+part "src/auth.dart";
 part "src/dynamodb.dart";
 
 main(List<String> args){
   app.addModule(new Module()
-    ..bind(AuthManager));
+    ..bind(Auth));
   
   app.setupConsoleLog();
   app.start(port:8081);

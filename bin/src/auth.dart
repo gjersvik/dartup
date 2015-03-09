@@ -3,14 +3,14 @@ part of dartup_controll;
 typedef Future<bool> AuthFunction(String token);
 typedef Set<String> AnonymousAccess();
 
-class AuthManager{
+class Auth{
   final Set<String> anonymousAccess
     = new Set.from(["/ping","/getToken","/getClientId"]);
   
   final String clientId = Platform.environment['GITHUB_ID'];
   final String clientSecret = Platform.environment['GITHUB_SECRET'];
   
-  AuthManager();
+  Auth();
   
   Future<bool> auth(String token){
     return new Future.value(false);
@@ -50,12 +50,3 @@ class AuthManager{
       });
   }
 }
-
-@app.Interceptor(r"/.*")
-authInterceptor(AuthManager auth) => auth.interceptor();
-
-@app.Route("/getToken")
-authGetToken(@app.Inject() AuthManager auth) => auth.getToken();
-
-@app.Route("/getClientId")
-authGetClientId(@app.Inject() AuthManager auth) => auth.getClientId();

@@ -13,3 +13,6 @@ corsInterceptor() {
 }
 
 _createCorsHeader() => {"Access-Control-Allow-Origin": "http://localhost:8080"};
+
+@app.Interceptor(r"/.*")
+authInterceptor(Auth auth) => auth.interceptor();
