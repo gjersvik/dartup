@@ -8,6 +8,8 @@ import "package:unittest/unittest.dart";
 import 'package:redstone/server.dart' as app;
 import 'package:redstone/mocks.dart';
 import 'package:di/di.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 
 import '../bin/server.dart';
 
