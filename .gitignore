@@ -13,4 +13,6 @@ packages/
 
 # Include when developing application packages.
 pubspec.lock
-secret.dart
+
+#ide stuff
+.idea

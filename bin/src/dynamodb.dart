@@ -1,40 +1,45 @@
 part of dartup_controll;
 
+Future<Map> dynamodbCli(String action, Map args){
+  return new Future.sync((){
+    var a = ["--output", "json", "--region", "eu-west-1", "dynamodb"];
+    a.add(action);
+    args.forEach((k,v){
+      a.add("--$key");
+      if(v is! String){
+        v = JSON.encode(v);
+      }
+      a.add(v);
+    });
+    return Process.run("aws",a);
+  }).then((ProcessResult res){
+    if(res.exitCode != 0){
+      throw new Exception(res.stdout);
+    }
+    return JSON.decode(UTF8.decode(res.stdout));
+  });
+}
+typedef Future<Map> DynamoCli(String action, Map args);
+
 class Dynamodb{
-  Future<Map> get(String tabel, Map jsonKey){
-    return new Future.sync((){
-      String key = JSON.encode(jsonToDynamo(jsonKey)["M"]);
-      var args = ["--output", "json",
-                  "--region", "eu-west-1",
-                  "dynamodb", "get-item",
-                  "--table-name", tabel,
-                  "--key", key];
-      return Process.run("aws",args);
-    }).then((ProcessResult p){
-      if(p.stderr.isNotEmpty){
-        throw new Exception(p.stderr);
-      }
-      var dynamoJson = JSON.decode(p.stdout);
-      return dynamoToJson({"M": dynamoJson["Item"]});
-    });
+  DynamoCli _cli;
+
+  Dynamodb(this._cli);
+
+  Future<Map> get(String table, Map jsonKey){
+    return _cli("get-item",{
+      "table-name": table,
+      "key": jsonToDynamo(jsonKey)["M"]
+    }).then((Map p) => dynamoToJson({"M": p["Item"]}));
   }
   
-  Future set(String tabel, Map jsonItem){
-    return new Future.sync((){
-      String item = JSON.encode(jsonToDynamo(jsonItem)['M']);
-      var args = ["--output", "json",
-                  "--region", "eu-west-1",
-                  "dynamodb", "put-item",
-                  "--table-name", tabel,
-                  "--item", item];
-      return Process.run("aws",args);
-    }).then((ProcessResult p){
-      if(p.stderr.isNotEmpty){
-        throw new Exception(p.stderr);
-      }
+  Future set(String table, Map jsonItem){
+    return _cli("put-item", {
+      "table-name": table,
+      "item": jsonToDynamo(jsonItem)['M']
     });
   }
-  
+
   dynamic dynamoToJson(Map dynamoJson){
     var type = dynamoJson.keys.first;
     var value = dynamoJson.values.first;
