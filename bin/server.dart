@@ -22,8 +22,8 @@ main(List<String> args){
   app.addModule(new Module()
     ..bind(http.Client)
     ..bind(Map,toValue: Platform.environment, withAnnotation: const EnvVars())
-    ..bind(Auth))
-    ..bind(DynamoCli,toValue: dynamodbCli
+    ..bind(Auth)
+    ..bind(DynamoCli,toValue: dynamodbCli)
     ..bind(Dynamodb));
   
   app.setupConsoleLog();

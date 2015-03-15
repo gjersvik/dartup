@@ -1,4 +1,4 @@
-library dartup_controll;
+part of dartup_controll;
 
 class Users{
 
