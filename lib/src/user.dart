@@ -1,9 +1,11 @@
 part of dartup_common;
 
 class User{
-  int id;
-  String email;
-  bool active;
+  int id = 0;
+  String email = "";
+  bool active = false;
+
+  User();
 
   User.fromJson(Map json){
     id = json["id"];
@@ -19,5 +21,5 @@ class User{
     };
   }
 
-  String toString() => "User(id:$githubId, email:$email, active:$active)";
+  String toString() => "User(id:$id, email:$email, active:$active)";
 }
