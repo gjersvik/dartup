@@ -13,6 +13,7 @@ class Users{
     // 4. Update or create new record as needed.
 
     // 5. If everything went well return new/updated user.
+    return new Future.error('NOT Implmented');
   }
 
 }

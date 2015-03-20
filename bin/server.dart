@@ -11,6 +11,7 @@ import "package:shelf/shelf.dart" as shelf;
 
 import "package:dartup/dartup_common.dart";
 
+part "src/interface/github.dart";
 part "src/auth.dart";
 part "src/dynamodb.dart";
 part "src/interceptor.dart";
