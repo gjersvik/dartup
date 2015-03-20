@@ -1,43 +1,17 @@
 part of dartup_server;
 
-Future<Map> dynamodbCli(String action, Map args){
-  return new Future.sync((){
-    var a = ["--output", "json", "--region", "eu-west-1", "dynamodb"];
-    a.add(action);
-    args.forEach((k,v){
-      a.add("--$key");
-      if(v is! String){
-        v = JSON.encode(v);
-      }
-      a.add(v);
-    });
-    return Process.run("aws",a);
-  }).then((ProcessResult res){
-    if(res.exitCode != 0){
-      throw new Exception(res.stdout);
-    }
-    return JSON.decode(UTF8.decode(res.stdout));
-  });
-}
-typedef Future<Map> DynamoCli(String action, Map args);
+class Datastore{
+  DynamoDb _db;
 
-class Dynamodb{
-  DynamoCli _cli;
+  Datastore(this._db);
 
-  Dynamodb(this._cli);
-
-  Future<Map> get(String table, Map jsonKey){
-    return _cli("get-item",{
-      "table-name": table,
-      "key": jsonToDynamo(jsonKey)["M"]
-    }).then((Map p) => dynamoToJson({"M": p["Item"]}));
+  Future<Map> get(String table, String key, value){
+    return _db.getItem(table, {key:jsonToDynamo(value)})
+        .then((Map p) => dynamoToJson({"M": p["Item"]}));
   }
   
   Future set(String table, Map jsonItem){
-    return _cli("put-item", {
-      "table-name": table,
-      "item": jsonToDynamo(jsonItem)['M']
-    });
+    return _db.putItem(table, jsonToDynamo(jsonItem)['M']);
   }
 
   dynamic dynamoToJson(Map dynamoJson){

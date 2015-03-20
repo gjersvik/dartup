@@ -15,8 +15,7 @@ main(List<String> args){
     ..bind(http.Client)
     ..bind(Map,toValue: Platform.environment, withAnnotation: const EnvVars())
     ..bind(Auth)
-    ..bind(DynamoCli,toValue: dynamodbCli)
-    ..bind(Dynamodb)
+    ..bind(Datastore)
     ..bind(Github, toImplementation: GithubWrapper)
     ..bind(DynamoDb, toImplementation: DynamoDbWrapper));
   
