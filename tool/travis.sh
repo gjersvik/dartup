@@ -10,7 +10,6 @@ dart --checked test/test_all.dart
 if [ "$COVERALLS_TOKEN" ]; then
   pub global activate dart_coveralls
   pub global run dart_coveralls report \
-    --debug \
     --token $COVERALLS_TOKEN \
     --retry 2 \
     test/test_all.dart
