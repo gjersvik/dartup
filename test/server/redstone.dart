@@ -1,4 +1,4 @@
-part of dartup_controll_test;
+part of dartup_server_test;
 
 Future<bool> unittesAuth(String token){
   return new Future.sync(() => token == 'unittest');

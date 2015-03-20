@@ -1,4 +1,4 @@
-part of dartup_controll_test;
+part of dartup_server_test;
 
 ping() => group('ping',(){
   test("ping return pong", () {

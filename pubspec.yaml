@@ -10,6 +10,7 @@ dependencies:
   http: any
   redstone: any
 dev_dependencies:
+  mock: any
   unittest: any
 transformers:
 - $dart2js:
