@@ -18,6 +18,65 @@ datastoreTest() => group("Datastore",(){
     datastore = null;
   });
   
+  test("dynamoToJson String",(){
+    expect(datastore.dynamoToJson({"S": "testString"}), "testString");
+  });
+  
+  test("dynamoToJson Number",(){
+    expect(datastore.dynamoToJson({"N": "1"}), 1);
+    expect(datastore.dynamoToJson({"N": "-1"}), -1);
+    expect(datastore.dynamoToJson({"N": "-1.2"}), -1.2);
+  });
+  
+  test("dynamoToJson Booleans",(){
+    expect(datastore.dynamoToJson({"BOOL": "true"}), true);
+    expect(datastore.dynamoToJson({"BOOL": "false"}), false);
+  });
+  
+  test("dynamoToJson Null",(){
+    expect(datastore.dynamoToJson({"NULL": "true"}), null);
+  });
+  
+  test("dynamoToJson Map",(){
+    expect(datastore.dynamoToJson({"M": {"testKey":{"S": "testValue"}}}), {"testKey":"testValue"});
+  });
+  
+  test("dynamoToJson List",(){
+    expect(datastore.dynamoToJson({"L": [{"S": "testString"}]}), ['testString']);
+  });
+
+  test("dynamoToJson recursive",(){
+    var dynamo = {"M":{
+      "map": {"M":{
+        "num": {"N": "42"},
+        "list": {"L": [
+          {"BOOL": "true"},
+          {"BOOL": "false"},
+          {"M": {}},
+          {"L": []},
+        ]}
+      }}
+    }};
+    
+    var out = {
+      "map": {
+        "num": 42,
+        "list": [
+          true,
+          false,
+          {},
+          []
+        ]
+      }
+    };
+    
+    expect(datastore.dynamoToJson(dynamo), out);
+  });
+  
+  test("dynamoToJson error",(){
+    expect(() => datastore.dynamoToJson({"SS":["1","2"]}), throwsException);
+  });
+  
   test("jsonToDynamo String",(){
     expect(datastore.jsonToDynamo("testString"), {"S": "testString"});
   });
@@ -28,7 +87,7 @@ datastoreTest() => group("Datastore",(){
     expect(datastore.jsonToDynamo(-1.2), {"N": "-1.2"});
   });
   
-  test("jsonToDynamo booleans",(){
+  test("jsonToDynamo Booleans",(){
     expect(datastore.jsonToDynamo(true), {"BOOL": "true"});
     expect(datastore.jsonToDynamo(false), {"BOOL": "false"});
   });
@@ -71,5 +130,9 @@ datastoreTest() => group("Datastore",(){
     }};
     
     expect(datastore.jsonToDynamo(json), out);
+  });
+  
+  test("jsonToDynamo error",(){
+    expect(() => datastore.jsonToDynamo(datastore), throwsException);
   });
 });
