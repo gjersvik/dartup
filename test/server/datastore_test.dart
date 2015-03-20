@@ -18,6 +18,32 @@ datastoreTest() => group("Datastore",(){
     datastore = null;
   });
   
+  test("get",(){
+    mock.when(callsTo("getItem",anything,anything)).alwaysCall((table,key){
+      return new Future.sync((){
+        expect(table, "testTable");
+        expect(key, {"name":{"S":"testName"}});
+        return {"Item":{"name":{"S": "testName"}}};
+      });
+    });
+    
+    return datastore.get("testTable", "name", "testName").then((json){
+      expect(json,{"name":"testName"});
+    });
+  });
+  
+  test("set",(){
+    mock.when(callsTo("putItem",anything,anything)).alwaysCall((table,item){
+      return new Future.sync((){
+        expect(table, "testTable");
+        expect(item, {"name":{"S":"testName"}});
+      });
+    });
+    
+    return datastore.set("testTable",{"name": "testName"});
+  });
+  
+  
   test("dynamoToJson String",(){
     expect(datastore.dynamoToJson({"S": "testString"}), "testString");
   });
