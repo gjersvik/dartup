@@ -1,4 +1,4 @@
-part of dartup_controll;
+part of dartup_server;
 
 abstract class Github{
   String get clientId;

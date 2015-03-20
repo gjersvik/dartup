@@ -1,4 +1,4 @@
-part of dartup_controll;
+part of dartup_server;
 
 final Set<String> noAuth = new Set.from(["/ping","/getToken","/getClientId"]);
 

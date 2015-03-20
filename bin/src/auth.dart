@@ -1,4 +1,4 @@
-part of dartup_controll;
+part of dartup_server;
 
 class Auth{
   String _clientId;

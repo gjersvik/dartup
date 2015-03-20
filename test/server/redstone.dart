@@ -11,7 +11,7 @@ redstone(void body()){
           ..bind(Auth)
           ..bind(http.Client,toValue: new MockClient((_)=> new Future.value(new MockHttpResponse())))
           ..bind(Map,toValue: {}, withAnnotation: const EnvVars()));
-      app.setUp([#dartup_controll]);
+      app.setUp([#dartup_server]);
     });
     tearDown(() => app.tearDown());
     

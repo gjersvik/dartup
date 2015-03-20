@@ -11,7 +11,7 @@ import 'package:di/di.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
-import '../bin/server.dart';
+import '../bin/server_lib.dart';
 
 part "server/routers/ping.dart";
 part "server/redstone.dart";

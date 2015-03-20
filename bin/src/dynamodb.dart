@@ -1,4 +1,4 @@
-part of dartup_controll;
+part of dartup_server;
 
 Future<Map> dynamodbCli(String action, Map args){
   return new Future.sync((){

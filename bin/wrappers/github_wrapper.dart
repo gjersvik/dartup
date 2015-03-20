@@ -6,7 +6,7 @@ import "dart:io";
 import "package:github/server.dart";
 import "package:http/http.dart";
 
-import "../server.dart";
+import "../server_lib.dart";
 
 class GithubWrapper extends Github{
   String clientId = Platform.environment["GITHUB_ID"];
