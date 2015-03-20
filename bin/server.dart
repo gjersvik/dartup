@@ -4,6 +4,7 @@ import "dart:io";
 
 import "server_lib.dart";
 import "wrappers/github_wrapper.dart";
+import "wrappers/dynamo_db_wrapper.dart";
 
 import "package:di/di.dart";
 import "package:http/http.dart" as http;
@@ -16,7 +17,8 @@ main(List<String> args){
     ..bind(Auth)
     ..bind(DynamoCli,toValue: dynamodbCli)
     ..bind(Dynamodb)
-    ..bind(Github, toImplementation: GithubWrapper));
+    ..bind(Github, toImplementation: GithubWrapper)
+    ..bind(DynamoDb, toImplementation: DynamoDbWrapper));
   
   app.setupConsoleLog();
   app.start(port:8081);

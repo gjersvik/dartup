@@ -9,10 +9,12 @@ import "package:http/http.dart";
 import "../server_lib.dart";
 
 class GithubWrapper extends Github{
+  @override
   String clientId = Platform.environment["GITHUB_ID"];
   
   String _clientSecret = Platform.environment["GITHUB_SECRET"];
   
+  @override
   Future<Map> auth(String code){
     return new Future.sync((){
       var data = {
@@ -24,6 +26,7 @@ class GithubWrapper extends Github{
     }).then((Response res) => Uri.splitQueryString(res.body));
   }
   
+  @override
   Future<Map> user(String token){
     return new Future.sync((){
       var github = createGitHubClient(auth: new Authentication.withToken(token));
