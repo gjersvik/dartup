@@ -13,6 +13,11 @@ class User{
     active = json["active"];
   }
 
+  //TODO Unit Test Me
+  bool get isEmpty => id == 0;
+  //TODO and Me
+  bool get isNotEmpty => id != 0;
+
   Map toJson(){
     return {
       "id": id,
