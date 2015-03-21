@@ -16,39 +16,37 @@ class Users{
   /// create/update local info as needed. This is a much slower process.
   ///
   /// Will return an empty user if user is not found.
-  Future<User> fromAccessToken(String token, {bool createIfMissing: false}) async {
+  Future<User> fromAccessToken(String token, {bool createIfMissing: false}){
     // TODO Unit test me!!!
     // 1. Check if user is in DynamoDB and return if found.
-    var user = new User.fromJson(await _db.get("dartup_users", "access_token", token));
-    if(user.isNotEmpty || !createIfMissing){
-      return user;
-    }
+    return _db.get("dartup_users", "access_token", token).then((userJson){
+      var user = new User.fromJson(userJson);
+      if(user.isNotEmpty || !createIfMissing){
+        return user;
+      }
+      // 2. If create is true make a call to GitHub to get user info.
+      return _gitHub.user(token).then((gitHubUser){
+        // 3. Make a new query to DynamoDB to se if user already exist with an old
+        // access token
+        return _db.get("dartup_users", "id", gitHubUser["id"]).then((dbUser){
+          if(dbUser.isEmpty){
+            // 4a. Create new user record.
+            dbUser["id"] = gitHubUser["id"];
+            dbUser["email"] = gitHubUser["email"];
+            dbUser["access_token"] = token;
+            dbUser["active"] = false;
+            dbUser["created_time"] = new DateTime.now().toUtc().toIso8601String();
 
-    // 2. If create is true make a call to GitHub to get user info.
-    var gitHubUser = await _gitHub.user(token);
-
-    // 3. Make a new query to DynamoDB to se if user already exist with an old
-    // access token
-    Map dbUser = await _db.get("dartup_users", "id", gitHubUser["id"]);
-
-    if(dbUser.isEmpty){
-      // 4a. Create new user record.
-      dbUser["id"] = gitHubUser["id"];
-      dbUser["email"] = gitHubUser["email"];
-      dbUser["access_token"] = token;
-      dbUser["active"] = false;
-      dbUser["created_time"] = new DateTime.now().toUtc().toIso8601String();
-
-    }else{
-      // 4b. Update user record.
-      dbUser["email"] = gitHubUser["email"];
-      dbUser["access_token"] = token;
-    }
-    await _db.set("dartup_users",dbUser);
-    user = new User.fromJson(dbUser);
-
-    // 5. If everything went well return new/updated user.
-    return user;
+          }else{
+            // 4b. Update user record.
+            dbUser["email"] = gitHubUser["email"];
+            dbUser["access_token"] = token;
+          }
+          user = new User.fromJson(dbUser);
+          return _db.set("dartup_users",dbUser).then((_)=>user);
+        });
+      });
+    });
   }
 
 }
