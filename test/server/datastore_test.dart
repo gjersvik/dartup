@@ -5,12 +5,12 @@ class MockDynamoDb extends Mock implements DynamoDb{
 }
 
 datastoreTest() => group("Datastore",(){
-  Datastore datastore;
+  DataStore datastore;
   MockDynamoDb mock;
   
   setUp((){
     mock = new MockDynamoDb();
-    datastore = new Datastore(mock);
+    datastore = new DataStore(mock);
   });
   
   tearDown((){

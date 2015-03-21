@@ -1,17 +1,29 @@
 part of dartup_server;
 
-class Datastore{
+class DataStore{
   DynamoDb _db;
 
-  Datastore(this._db);
+  DataStore(this._db);
 
-  Future<Map> get(String table, String key, value){
-    return _db.getItem(table, {key:jsonToDynamo(value)})
+  /// get json data from persistent storage.
+  ///
+  /// Returns empty map if no object is found, or throws a DataStoreException.
+  Future<Map> get(String container, String key, value){
+    //TODO Need to return {} on empty object.
+    //TODO Have it throw DataStoreException on DynamoDb exceptions.
+    return _db.getItem(container, {key:jsonToDynamo(value)})
         .then((Map p) => dynamoToJson({"M": p["Item"]}));
   }
-  
+
+  /// updated or creates a new json document from persistent storage.
+  ///
+  /// Returns null on when data is persistent.
+  /// Throws an DataStoreException on underlying failure.
+  /// Throws DataStoreError on malformed data.
   Future set(String table, Map jsonItem){
-    return _db.putItem(table, jsonToDynamo(jsonItem)['M']);
+    //TODO Have it throw DataStoreException on DynamoDb exceptions.
+    //TODO Have it throw DataStoreError on malformed data.
+    return _db.putItem(table, jsonToDynamo(jsonItem)['M']).then((_) => null);
   }
 
   dynamic dynamoToJson(Map dynamoJson){
@@ -60,3 +72,6 @@ class Datastore{
     throw new Exception("The value $json do not seem to be valid JSON");
   }
 }
+
+class DataStoreException extends Exception{}
+class DataStoreError extends Error{}
