@@ -21,8 +21,8 @@ class DataStore{
   /// Throws an DataStoreException on underlying failure.
   /// Throws DataStoreError on malformed data.
   Future set(String table, Map jsonItem){
-    //TODO Have it throw DataStoreException on DynamoDb exceptions.
-    //TODO Have it throw DataStoreError on malformed data.
+    //TODO Have it throw [DataStoreException] on DynamoDb exceptions.
+    //TODO Have it throw [ArgumentError] on malformed data.
     return _db.putItem(table, jsonToDynamo(jsonItem)['M']).then((_) => null);
   }
 
@@ -74,4 +74,3 @@ class DataStore{
 }
 
 class DataStoreException extends Exception{}
-class DataStoreError extends Error{}

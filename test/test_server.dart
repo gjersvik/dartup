@@ -16,10 +16,13 @@ import '../bin/server_lib.dart';
 
 part "server/routers/ping.dart";
 part "server/datastore_test.dart";
+part "server/mocks.dart";
 part "server/redstone.dart";
+part "server/users_test.dart";
 
 main(){
-  datastoreTest();
+  dataStoreTest();
+  usersTest();
   
   redstone((){
     ping();
