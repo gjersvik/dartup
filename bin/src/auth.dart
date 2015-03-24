@@ -1,33 +1,25 @@
 part of dartup_server;
 
+// TODO unit test me
 class Auth{
-  String _clientId;
-  String _secret;
+  GitHub _github;
+  Users _users;
   
-  http.Client _http;
+  Auth(this._github, this._users);
   
-  Auth(@EnvVars() Map env, http.Client this._http){
-    _clientId = env["GITHUB_ID"];
-    _secret = env["GITHUB_SECRET"];
+  Future<bool> validToken(String token){
+    return _users.fromAccessToken(token).then((User user)=> user.isNotEmpty);
   }
   
-  String get clientId => _clientId;
-  
-  Future<bool> auth(String token){
-    return new Future.value(false);
-  }
-  
-  Future<String> getToken(String code){
-    var data = {
-      "client_id": _clientId,
-      "client_secret": _secret,
-      "code": code
-    };
-    
-    return _http.post("https://github.com/login/oauth/access_token",body: data)
-      .then((http.Response res){
-        var map = Uri.splitQueryString(res.body);
-        return map["access_token"];
+  Future<Map> signin(String code){
+    return _github.auth(code).then((Map json){
+      return _users.fromAccessToken(json["access_token"],createIfMissing: true)
+      .then((User u){
+        return {
+          "oauth": json,
+          "user": u.toJson()
+        };
       });
+    });
   }
 }

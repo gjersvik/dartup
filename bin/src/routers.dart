@@ -10,10 +10,10 @@ authPingRouter()=>'pong';
 
 @app.Route("/getToken",methods: const [app.POST])
 getTokenRouter(@app.Inject() Auth auth, @app.Body(app.JSON) Map code)
-  => auth.getToken(code["code"]);
+  => auth.signin(code["code"]);
 
 @app.Route("/getClientId")
-getClientIdRouter(@app.Inject() Auth auth) => auth.clientId;
+getClientIdRouter(@app.Inject() GitHub gitHub) => gitHub.clientId;
 
 @app.Route("/user")
 userRouter() => null;

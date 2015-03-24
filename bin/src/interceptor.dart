@@ -25,7 +25,7 @@ authInterceptor(Auth auth){
     return;
   }
    
-  auth.auth(app.request.headers["Authentication"]).then((accepted){
+  auth.validToken(app.request.headers["Authentication"]).then((accepted){
     if(accepted){
       app.chain.next();
     }else{
