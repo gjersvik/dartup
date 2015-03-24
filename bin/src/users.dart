@@ -1,7 +1,7 @@
 part of dartup_server;
 
 class Users{
-  final Github _gitHub;
+  final GitHub _gitHub;
   final DataStore _db;
   
   Users(this._gitHub, this._db);
@@ -17,7 +17,7 @@ class Users{
   ///
   /// Will return an empty user if user is not found.
   Future<User> fromAccessToken(String token, {bool createIfMissing: false}){
-    // TODO Unit test me!!!
+    // TODO Need some error handling.
     // 1. Check if user is in DynamoDB and return if found.
     return _db.get("dartup_users", "access_token", token).then((userJson){
       var user = new User.fromJson(userJson);

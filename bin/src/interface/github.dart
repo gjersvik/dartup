@@ -1,6 +1,6 @@
 part of dartup_server;
 
-abstract class Github{
+abstract class GitHub{
   String get clientId;
  
   Future<Map> auth(String code);

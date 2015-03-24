@@ -7,7 +7,16 @@ class User{
 
   User();
 
-  User.fromJson(Map json){
+  User.fromJson(Map jsonIn){
+    //TODO Unit Test more complicated logic.
+    var json = {
+      "id": 0,
+      "email": "",
+      "active": false
+    };
+
+    json.addAll(jsonIn);
+
     id = json["id"];
     email = json["email"];
     active = json["active"];

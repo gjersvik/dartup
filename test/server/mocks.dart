@@ -26,14 +26,16 @@ class LocalDataStore extends DataStore{
   }
 
   Future set(String container, Map jsonItem){
-    if(!jsonItem.containsKey(primaryKey)) {
-      throw new ArgumentError.value(jsonItem,"jsonItem","Needs to be a Map '$primaryKey' set.");
-    }
-    if(!_data.containsKey(container)){
-      _data[container] = [];
-    }
-    _data[container].removeWhere((Map item) => item[primaryKey] == jsonItem[primaryKey]);
-    _data[container].add(prevItem);
+    return new Future.sync((){
+      if(!jsonItem.containsKey(primaryKey)) {
+        throw new ArgumentError.value(jsonItem,"jsonItem","Needs to be a Map '$primaryKey' set.");
+      }
+      if(!_data.containsKey(container)){
+        _data[container] = [];
+      }
+      _data[container].removeWhere((Map item) => item[primaryKey] == jsonItem[primaryKey]);
+      _data[container].add(jsonItem);
+    });
   }
 
 }
