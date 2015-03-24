@@ -1,19 +1,19 @@
 part of dartup_server;
 
-final Set<String> noAuth = new Set.from(["/ping","/getToken","/getClientId"]);
+final Set<String> noAuth = new Set.from(["/config","/signin"]);
 
-@app.Route("/ping")
-pingRouter()=>'pong';
+@app.Route("/config")
+configRouter(@app.Inject() GitHub gitHub){
+  return {
+    "GitHubClientId": gitHub.clientId
+  };
+}
 
-@app.Route("/ping/auth")
-authPingRouter()=>'pong';
-
-@app.Route("/getToken",methods: const [app.POST])
+@app.Route("/signin",methods: const [app.POST])
 getTokenRouter(@app.Inject() Auth auth, @app.Body(app.JSON) Map code)
   => auth.signin(code["code"]);
 
-@app.Route("/getClientId")
-getClientIdRouter(@app.Inject() GitHub gitHub) => gitHub.clientId;
-
 @app.Route("/user")
-userRouter() => null;
+userRouter(@app.Inject() Users users){
+  return users.fromAccessToken(app.request.headers["Authentication"]);
+}

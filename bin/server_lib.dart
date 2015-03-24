@@ -3,7 +3,6 @@ library dartup_server;
 import "dart:async";
 import "dart:io";
 
-import "package:http/http.dart" as http;
 import "package:redstone/server.dart" as app;
 import "package:shelf/shelf.dart" as shelf;
 
@@ -16,5 +15,4 @@ part "src/auth.dart";
 part "src/datastore.dart";
 part "src/interceptor.dart";
 part "src/routers.dart";
-part "src/type_annotation.dart";
 part "src/users.dart";

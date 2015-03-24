@@ -30,7 +30,7 @@ class DynamoDbWrapper extends DynamoDb{
       return Process.run("aws",a);
     }).then((ProcessResult res){
       if(res.exitCode != 0){
-        throw new Exception(res.stdout);
+        throw new Exception(res.stderr);
       }
       return JSON.decode(UTF8.decode(res.stdout));
     });
