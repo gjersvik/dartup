@@ -16,7 +16,7 @@ main(List<String> args){
     ..bind(Map,toValue: Platform.environment, withAnnotation: const EnvVars())
     ..bind(Auth)
     ..bind(DataStore)
-    ..bind(Github, toImplementation: GithubWrapper)
+    ..bind(GitHub, toImplementation: GitHubWrapper)
     ..bind(DynamoDb, toImplementation: DynamoDbWrapper));
   
   app.setupConsoleLog();

@@ -73,4 +73,4 @@ class DataStore{
   }
 }
 
-class DataStoreException extends Exception{}
+class DataStoreException implements Exception{}
