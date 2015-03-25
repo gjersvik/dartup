@@ -1,4 +1,4 @@
-library dartup_webpage;
+library dartup_client_runner;
 
 import "dart:async";
 import "dart:convert";
