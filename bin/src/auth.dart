@@ -1,6 +1,5 @@
 part of dartup_server;
 
-// TODO unit test me
 class Auth{
   GitHub _github;
   Users _users;

@@ -8,6 +8,10 @@ class MockGitHub extends Mock implements GitHub{
   noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+class MockUsers extends Mock implements Users{
+  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 class LocalDataStore extends DataStore{
   String primaryKey = "id";
   Map<String,List<Map>> _data = {};
