@@ -1,12 +1,12 @@
 part of dartup_server_test;
 
-dataStoreTest() => group("Datastore",(){
-  DataStore dataStore;
+dynamoDbDataStoreTest() => group("DynamoDbDataStore",(){
+  DynamoDbDataStore dataStore;
   MockDynamoDb mock;
   
   setUp((){
     mock = new MockDynamoDb();
-    dataStore = new DataStore(mock);
+    dataStore = new DynamoDbDataStore(mock);
   });
   
   tearDown((){

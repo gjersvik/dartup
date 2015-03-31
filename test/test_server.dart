@@ -13,7 +13,7 @@ part "server/users_test.dart";
 part "server/auth_test.dart";
 
 main(){
-  dataStoreTest();
+  dynamoDbDataStoreTest();
   usersTest();
   authTest();
 }

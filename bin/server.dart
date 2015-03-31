@@ -8,12 +8,13 @@ import "package:di/di.dart";
 import "package:redstone/server.dart" as app;
 
 main(List<String> args){
+  
+  
   app.addModule(new Module()
     ..bind(Auth)
-    ..bind(DataStore)
+    ..bind(DataStore, toValue: new DynamoDbDataStore(new DynamoDbWrapper()))
     ..bind(Users)
-    ..bind(GitHub, toImplementation: GitHubWrapper)
-    ..bind(DynamoDb, toImplementation: DynamoDbWrapper));
+    ..bind(GitHub, toImplementation: GitHubWrapper));
   
   app.setupConsoleLog();
   app.start(port:8081);

@@ -7,7 +7,7 @@ usersTest() => group("Users", (){
 
   setUp((){
     gitHub = new MockGitHub();
-    dataStore = new LocalDataStore();
+    dataStore = new MemeoryDataStore();
     users = new Users(gitHub,dataStore);
   });
 

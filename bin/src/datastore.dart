@@ -1,76 +1,23 @@
 part of dartup_server;
 
-class DataStore{
-  DynamoDb _db;
-
-  DataStore(this._db);
-
-  /// get json data from persistent storage.
+/// Base class for data storage
+///
+/// This baseclass implmenets an inmemeory store witout persistentce.
+abstract class DataStore {
+  /// get the first item that have a [key] with the value [value]
   ///
   /// Returns empty map if no object is found, or throws a DataStoreException.
-  Future<Map> get(String container, String key, value){
-    //TODO Need to return {} on empty object.
-    //TODO Have it throw DataStoreException on DynamoDb exceptions.
-    return _db.getItem(container, {key:jsonToDynamo(value)})
-        .then((Map p) => dynamoToJson({"M": p["Item"]}));
-  }
+  Future<Map> get(String container, String key, value);
 
-  /// updated or creates a new json document from persistent storage.
+  /// sets an item to the [container]. If ther exist an old object with the
+  /// same primaryKey it will be overwritten.
   ///
-  /// Returns null on when data is persistent.
+  /// Returns a future that complest when the item is safely stored. What
+  /// safely mean is up to the implmenation of DataStore
+  ///
   /// Throws an DataStoreException on underlying failure.
-  /// Throws DataStoreError on malformed data.
-  Future set(String table, Map jsonItem){
-    //TODO Have it throw [DataStoreException] on DynamoDb exceptions.
-    //TODO Have it throw [ArgumentError] on malformed data.
-    return _db.putItem(table, jsonToDynamo(jsonItem)['M']).then((_) => null);
-  }
-
-  dynamic dynamoToJson(Map dynamoJson){
-    var type = dynamoJson.keys.first;
-    var value = dynamoJson.values.first;
-    if(type == "S"){
-      return value;
-    }
-    if(type == "N"){
-      return num.parse(value);
-    }
-    if(type == "BOOL"){
-      return value == "true";
-    }
-    if(type == "NULL"){
-      return null;
-    }
-    if(type == "M"){
-      return new Map.fromIterables(value.keys,value.values.map(dynamoToJson));
-    }
-    if(type == "L"){
-      return value.map(dynamoToJson).toList();
-    }
-    throw new Exception("DynamoDb type: $type is not supored");
-  }
-  
-  Map jsonToDynamo(var json){
-    if(json is String){
-      return {"S": json};
-    }
-    if(json is num){
-      return {"N": json.toString()};
-    }
-    if(json is bool){
-      return {"BOOL": json.toString()};
-    }
-    if(json == null){
-      return {"NULL": "true"};
-    }
-    if(json is Map){
-      return {"M": new Map.fromIterables(json.keys,json.values.map(jsonToDynamo))};
-    }
-    if(json is List){
-      return {"L": json.map(jsonToDynamo).toList()};
-    }
-    throw new Exception("The value $json do not seem to be valid JSON");
-  }
+  /// Throws ArgumentError on malformed data.
+  Future<Map> set(String container, Map jsonItem);
 }
 
-class DataStoreException implements Exception{}
+class DataStoreException implements Exception {}
