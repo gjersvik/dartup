@@ -7,13 +7,11 @@ import "package:mock/mock.dart";
 
 import '../bin/server_lib.dart';
 
-part "server/datastore_test.dart";
 part "server/mocks.dart";
 part "server/users_test.dart";
 part "server/auth_test.dart";
 
 main(){
-  dynamoDbDataStoreTest();
   usersTest();
   authTest();
 }

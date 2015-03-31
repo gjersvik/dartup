@@ -15,7 +15,6 @@ part "src/interface/dynamo_db.dart";
 part "src/auth.dart";
 part 'src/datastore.dart';
 part 'src/memeory_datastore.dart';
-part 'src/dynamodb_datastore.dart';
 part "src/interceptor.dart";
 part "src/routers.dart";
 part "src/users.dart";
