@@ -14,7 +14,7 @@ class Server{
     req.headers["Content-Type"] = "application/json";
     return client.send(req)
         .then((res) => UTF8.decodeStream(res.stream))
-        .then(JSON.encode)
+        .then(JSON.decode)
         .then((json) => json["oauth"]["access_token"]);
   }
   
