@@ -5,11 +5,11 @@ class Auth{
   Stream<bool> _boolStream;
   String _token;
   
-  final Window _window;
+  final Location _location;
   final Server _server;
-  final Uri _base;
+  final Window _window;
   
-  Auth(this._window, this._server, this._base){
+  Auth(this._location, this._server, this._window){
     _boolStream = onToken
         .map((s) => s.isNotEmpty)
         // this line is not a bug i am passing the function created by
@@ -22,10 +22,10 @@ class Auth{
     
     if(!logedIn){
       //3. See if there is one-time code from github in the url.
-      if(_base.queryParameters.containsKey('code')){
+      if(_location.currentUri.queryParameters.containsKey('code')){
         // 4. extange the one-time code with a github acess code.
         // Using the secrets stored on the server.
-        _server.getToken(_base.queryParameters['code'])
+        _server.getToken(_location.currentUri.queryParameters['code'])
           .then((t) => token = t);
       }
     }
@@ -36,11 +36,11 @@ class Auth{
     _server.getCinetId().then((clinetId){
       var query = {
         "client_id": clinetId,
-        "redirect_uri": _base.toString(),
+        "redirect_uri": _location.currentUri.toString(),
         "scope": "user:email"
       };
       var uri = new Uri.https("github.com", "/login/oauth/authorize",query);
-      window.location.assign(uri.toString());
+      _location.redirect(uri);
     });
   }
   
