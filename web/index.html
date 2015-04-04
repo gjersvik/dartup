@@ -1,29 +1,54 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
   	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="main.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Dartup</title>
+    
+    <link rel="stylesheet" href="packages/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="packages/bootstrap/css/bootstrap-theme.css">
     <link href="vendor/auth-buttons.css" rel="stylesheet">
-    <title>index</title>
   </head>
  
   <body>
-    <header>
-      <img alt="Dartup" src="img/logo.svg">
-      <a class="button" href="http://blog.dartup.net/">Blog</a>
-      <a id="signin_button" class="btn-auth btn-github large" href="#">
-        Sign in with <b>GitHub</b>
-      </a>
-    </header>
-    <article class="mission">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <img style="margin: -10px -10px" alt="Dartup" src="img/logo.svg" height="40
+            px">
+          </a>
+        </div>
+    
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://blog.dartup.net/">Blog</a></li>
+            <li><a id="signin_button" class="btn-auth btn-github" href="#">
+              Sign in with <b>GitHub</b>
+            </a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <article class="container-fluid">
       <h1>The Mission</h1>
       <p class="short">
         Enable easy and frictionless hosting of Dart applications and services.
         In an open and community driven way.
       </p>
-      <div class="long hidden">
+      <div>
         <h2>Easy and frictionless</h2>
         <p>
           It should be easy for anyone to run a full stack Dart application. So
@@ -58,15 +83,14 @@
           will start but where we go be will mostly up to you the community.
         </p>
       </div>
-      <button class="readmore">Read more.</button>
     </article>
     
-    <article class="roadmap">
+    <article>
       <h1>The Roadmap</h1>
       <div class="short">
         Minimum product to positive cash flow to community guided reinvestment.
       </div>
-      <div class="long hidden">
+      <div>
         <h2>Minimum product</h2>
         <p>
           The plan is to first create a simple hostings service for static
@@ -101,7 +125,6 @@
           so we will see. Muahahaha.
         </p>
       </div>
-      <button class="readmore">Read more.</button>
     </article>
 
     <footer>
@@ -109,5 +132,8 @@
     </footer>
     <script type="application/dart" src="client.dart"></script>
     <script src="packages/browser/dart.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="packages/bootstrap/js/bootstrap.js"></script>
   </body>
 </html>

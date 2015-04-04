@@ -5,6 +5,7 @@ homepage: dartup.net
 environment:
   sdk: '>=1.8.3 <2.0.0'
 dependencies:
+  bootstrap: any
   browser: any
   github: any
   http: any
@@ -15,3 +16,6 @@ dev_dependencies:
 transformers:
 - $dart2js:
     minify: true
+- bootstrap:
+    url: //maxcdn.bootstrapcdn.com/bootstrap/{{version}}
+    version: 3.2.0    
